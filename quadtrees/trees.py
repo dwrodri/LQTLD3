@@ -161,6 +161,11 @@ class LinearQuadTree:
             return 'G'
 
     def code_to_pixel(self, code: int) -> list:
+        """
+
+        :param code: binary add
+        :return:
+        """
         row_bits = int(bin(code)[2:].zfill(2 * self.r)[::2], 2)
         col_bits = int(bin(code)[2:].zfill(2 * self.r)[1::2], 2)
         return [row_bits, col_bits]
@@ -201,9 +206,8 @@ class LinearQuadTree:
         edits the occupancy_matrix to draw in the edges of the cells
         """
         for i in range(len(self.tree)):
-            if self.tree[i][2] != 'B' and self.tree[i][1] < (self.r - 2):
-                self.color_cell(i, int('0xAFAFAF', 16))
-
+            if self.tree[i][2] != 'B' and self.tree[i][1] < (self.r - 1):
+                self.color_cell(i, int('0xe74cff', 16))
 
 
 

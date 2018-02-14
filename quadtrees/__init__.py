@@ -15,4 +15,4 @@ def test_np_array() -> None:
     pass
 
 if __name__ == '__main__':
-    test_png_file('../testfile2.png')
+    test_png_file('../test_pngs/mini2.png')
