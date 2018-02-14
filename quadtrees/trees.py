@@ -170,9 +170,32 @@ class LinearQuadTree:
         col_bits = int(bin(code)[2:].zfill(2 * self.r)[1::2], 2)
         return [row_bits, col_bits]
 
+    # TODO: rewrite to remove the level_dif_index parameter, it's confusing
+    def get_neighbor(self, cell: list, level_dif_index: int, direction: int) -> int:
+        """
+        Get neighbor code in given direction. This is straight from the Aizawa & Tanaka paper.
+        See paper about shortcomings of this algorithm.
+
+        :param cell: cell whose neighbor we want
+        :param level_dif_index: index in cell of the level dif we want
+        :param direction: direction vector to apply to the code
+        :return: location code of neighbor
+        """
+        dd = cell[level_dif_index]  # this is the level differential
+        if dd != sys.maxsize:  # if the direction requested is not facing wall
+            n_q, l = cell[:2]  # n_q is the neighbor code, l is level
+            shift = 2 * (self.r - l - dd)  # compensate for level differences
+            tx = int('01' * self.r, 2)  # generate masks for QLAO
+            ty = int('10' * self.r, 2)
+            if dd < 0:  # if neighbor is higher up in tree
+                return qlao((n_q >> shift << shift), tx, ty, (direction << shift))
+            else:  # if neighbor is further down or at same level...
+                return qlao(cell[0], tx, ty, direction << (2 * (self.r - l)))
+
     def generate_debug_png(self, filename):
         """
-        debugger function that uses PyPNG to render an RGB image used to debug stuff
+        debugger function that uses PyPNG to render an RGB image of the vmatrix
+
         :param filename: string used as filename for output_PNG
         """
         output_file = open(filename, 'wb')
@@ -192,7 +215,14 @@ class LinearQuadTree:
                     pixel_matrix[row].extend([r, g, b])
         writer.write(output_file, pixel_matrix)
 
-    def color_cell(self, cell_index, color):
+    def color_cell(self, cell_index, color) -> None:
+        """
+        Draws a bounding box around the inside of the cell in the tree.
+        Currently only used as a helper function for *draw_all_usable_cells()*
+
+        :param cell_index: index in self.tree of the cell
+        :param color: color of the boundary line
+        """
         cell = self.tree[cell_index]
         cell_row, cell_col = self.code_to_pixel(cell[0])  # get corner of cell
         for i in range(len(self.vmatrix) >> cell[1]):
