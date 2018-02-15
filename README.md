@@ -1,6 +1,6 @@
 # Linear Quadtrees with Level Differences in Python 3 (LQTLD3)
 
-![](demo.png)
+![demo](demo.png)
 
 
 This is the Python 3 version of [LQTLD](https://github.com/dwrodri/LQTLD), and is a much cleaner implementation. This (and the original Python 2 implementation) are based on [A Constant-Time Algorithm for Finding Neighbors in Quadtrees (2009)](http://ieeexplore.ieee.org/document/4538229/) by Kunio Aizawa and Shojiro Tanaka.
@@ -10,7 +10,7 @@ This is the Python 3 version of [LQTLD](https://github.com/dwrodri/LQTLD), and i
 I wrote the original Python 2 implementation of this paper so that I can efficiently perform some path planning operations on a Raspberry Pi for a robotics project. By converting the occupancy grid to a linear quadtree, I reduced the the search space by >90%.
 
 This data structure has two major strengths:
-* It can represent a 2-d matrix of bits efficiently, especially if the values of one category are grouped together.
+* It can represent a 2-D matrix of bits efficiently, especially if the values of one category are grouped together.
 * You can get the neighbors of any cell in the quadtree in constant time
 
 Quadtrees are popular for programming video game NPCS because they're a good way to store spacial data for path planning algorithms.
