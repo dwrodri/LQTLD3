@@ -11,7 +11,7 @@ I wrote the original Python 2 implementation of this paper so that I can efficie
 
 This data structure has two major strengths:
 * It can represent a 2-d matrix of bits efficiently, especially if the values of one category are grouped together.
-* You can get the neighbors of any cell in the quadtree in constant time.
+* You can get the neighbors of any cell in the quadtree in constant time
 
 Quadtrees are popular for programming video game NPCS because they're a good way to store spacial data for path planning algorithms.
 
@@ -24,6 +24,7 @@ Unless the Internet tells me otherwise, I'm going to stop working on the origina
 As previously mentioned, it would be nice to extend the functionality of the algorithm to support n-dimensional arrays, not just 2-d arrays. I think Shrack's Algorithm, and the adjustments proposed by Aizawa support this. A working version of constant-time neighbor cell search in 3-dimensional space could be useful for computer vision projects, or time series forecasting.
 # To-Do
 - [ ] Add PyPI support
+- [ ] Document tests with codecov
 - [ ] Extend to support Karnaugh map operation for up to four variables.
 - [ ] Find some way of speeding up cell division
 - [x] Speed up matrix ops with [numpy](http://numpy.org)
