@@ -9,7 +9,7 @@ def test_png_file(filename:str) -> None:
     matrix = numpy.array([[y/255 for y in x] for x in list(pngdata[2])])[:, ::3]  # load into numpy array
     lqtld = trees.LinearQuadTree(value_matrix=matrix)
     lqtld.draw_all_usable_cells()
-    lqtld.generate_debug_png('../debug.png')
+    lqtld.generate_debug_png('../output.png')
 
 def test_np_array() -> None:
     pass
