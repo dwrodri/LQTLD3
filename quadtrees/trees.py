@@ -2,8 +2,7 @@ import numpy
 import sys
 import png
 
-# TODO: figure out argparse 
-# TODO: write C++ version and create bindings in other languages
+# TODO: figure out argparse
 
 # CELL SPEC: [[0, 0, 'G', sys.maxsize, sys.maxsize, sys.maxsize, sys.maxsize]]
 #              ^  ^   ^        ^            ^            ^            ^
@@ -14,6 +13,7 @@ import png
 #                         north neighbor diff            |            |
 #                                       west neighbor diff            |
 #                                                   south neighbor diff
+
 
 def qlao(code, tx, ty, direction) -> int:
     """
@@ -58,7 +58,7 @@ class LinearQuadTree:
         self.vmatrix = numpy.pad(self.vmatrix,
                                  ((0, adjustments[0]), (0, adjustments[1])),
                                  'constant',
-                                 constant_values=(0, 0))
+                                 constant_values=(1, 1))
 
     def write_tree_to_file(self) -> None:
         """
@@ -72,7 +72,6 @@ class LinearQuadTree:
         """
         self.tree = [[0, 0, 'G', sys.maxsize, sys.maxsize, sys.maxsize, sys.maxsize]]
         while list(filter(lambda x: x[2] == 'G', self.tree)):  # while includes GRAY areas do
-
             for i in range(len(self.tree)):
                 if self.tree[i][2] == 'G':  # find first gray node
                     self.update_neighbors(self.tree[i])  # neighbors of first GRAY node incremented
@@ -119,7 +118,7 @@ class LinearQuadTree:
         generations = [cell[1] + 1] * 4
         new_code_bits = list(map(lambda x: x << (2 * (self.r - generations[x])), range(4)))
         codes = list(map(lambda x: cell[0] | x, new_code_bits))
-        colors = list(map(lambda x: self.assign_color(codes[x], generations[x]), range(4)))  # fetch colors for all new codes
+        colors = list(map(lambda x: self.assign_color(codes[x], generations[x]), range(4)))  # get color of cells
         east_levels = [0, cell[3], 0, cell[3]]  # east levels go to SE and NE corners
         north_levels = [0, 0, cell[4], cell[4]]  # north levels go NE and NW corners
         west_levels = [cell[5], 0, cell[5], 0]  # west levels go to SW and SW corners
@@ -141,21 +140,12 @@ class LinearQuadTree:
         :param gen: generation of cell
         :return: 'W" = white, 'G' = gray, or 'B' = black 
         """
-        cell_row, cell_col = self.code_to_pixel(code)  # get row and col of cell
-        cell_height = len(self.vmatrix) >> gen
-        cell_width = len(self.vmatrix[0]) >> gen
-        score = 0
-        for i in range(cell_height):
-            for j in range(cell_width):
-                try:
-                    score += self.vmatrix[cell_row + i][
-                        cell_col + j]  # black cells are represented with 1s on the grid
-                except IndexError as e:
-                    print(f'{cell_row + i:d} {cell_col + j:d}')
-                    raise e
+        cell_row, cell_col = self.code_to_pixel(code)
+        cell_width = cell_height = len(self.vmatrix) >> gen
+        score = numpy.sum(self.vmatrix[cell_row:cell_row+cell_height, cell_col:cell_col+cell_width])
         if score == 0:
             return 'B'
-        elif score == cell_width * cell_height:
+        elif score == cell_width*cell_height:
             return 'W'
         else:
             return 'G'

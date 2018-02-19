@@ -3,7 +3,13 @@ from quadtrees import trees
 import numpy
 import itertools
 
-def test_png_file(filename:str) -> None:
+def test_png_file(filename: str) -> None:
+    """
+    Takes the relative filename of a PNG file and draws the quadtree on top of it
+
+    :param filename:
+    :return:
+    """
     reader = Reader(filename)
     pngdata = reader.read() #extract file
     matrix = numpy.array([[y/255 for y in x] for x in list(pngdata[2])])[:, ::3]  # load into numpy array
