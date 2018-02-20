@@ -199,9 +199,9 @@ class LinearQuadTree:
                 elif self.vmatrix[row][col] == 1:
                     pixel_matrix[row].extend([255, 255, 255])
                 else:
-                    b = self.vmatrix.astype(numpy.int64)[row][col] & 255
-                    g = (self.vmatrix.astype(numpy.int64)[row][col] >> 8) & 255
-                    r = (self.vmatrix.astype(numpy.int64)[row][col] >> 16) & 255
+                    b = self.vmatrix[row][col] & 255 # apparently this is slaughtering performance
+                    g = (self.vmatrix[row][col] >> 8) & 255
+                    r = (self.vmatrix[row][col] >> 16) & 255
                     pixel_matrix[row].extend([r, g, b])
         writer.write(output_file, pixel_matrix)
 
