@@ -27,4 +27,3 @@ As previously mentioned, it would be nice to extend the functionality of the alg
 - [ ] Document tests with codecov
 - [ ] Extend to support Karnaugh map operation for up to four variables.
 - [ ] Find some way of speeding up cell division
-- [x] Speed up matrix ops with [numpy](http://numpy.org)
