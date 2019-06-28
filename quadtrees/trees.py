@@ -182,7 +182,7 @@ class LinearQuadTree:
             else:  # if neighbor is further down or at same level...
                 return qlao(cell[0], tx, ty, direction << (2 * (self.r - l)))
 
-    def generate_debug_png(self, filename):
+    def generate_debug_png(self, filename: str):
         """
         debugger function that uses PyPNG to render an RGB image of the vmatrix
 
